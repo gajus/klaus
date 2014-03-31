@@ -1,0 +1,25 @@
+{
+	"name": "gajus/klaus",
+	"description": "SQL clause builder.",
+	"keywords": ["query", "where", "clause"],
+	"homepage": "https://github.com/gajus/klaus",
+	"type": "library",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Gajus Kuizinas",
+			"email": "gk@anuary.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5"
+	},
+	"require-dev": {
+	    "satooshi/php-coveralls": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"Gajus\\Klaus\\": "src/"
+		}
+	}
+}
