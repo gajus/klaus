@@ -92,75 +92,23 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		]);
 	}
 
+	public function testNestedCondition () {
+		$where = new \Gajus\Klaus\Where(['foo' => '`foo`', 'bar' => '`bar`'], [
+			'group' => 'AND',
+			'condition' => [
+				['name' => 'foo', 'value' => '1', 'operation' => '='],
+				['name' => 'bar', 'value' => '1', 'operation' => '='],
+				[
+					'group' => 'OR',
+					'condition' => [
+						['name' => 'foo', 'value' => '1', 'operation' => '='],
+						['name' => 'bar', 'value' => '1', 'operation' => '=']
+					]
+				]
+			]
+		]);
 
-
-	/*
-	[
-    'group' => 'AND',
-    'condition' => [
-        ['name' => 'name', 'value' => 'foo', 'operation' => '='],
-        ['name' => 'duration', 'value' => 'bar', 'operation' => '='],
-        [
-            'group' => 'OR',
-            'condition' => [
-                ['name' => 'amount', 'value' => 10, 'operation' => '>'],
-                ['name' => 'amount', 'value' => 100, 'operation' => '<'],
-            ]
-        ]
-    ]
-]*/
-
-	/*public function testNoParameters () {
-		$where = new \Gajus\Klaus\Where();
-
-		$this->assertCount(0, $where->getData());
-		$this->assertSame('1=1', $where->getQuery());
+		$this->assertSame('`foo` = :foo_0 AND `bar` = :bar_1 AND (`foo` = :foo_2 OR `bar` = :bar_3)', $where->getClause());
+		$this->assertSame(['foo_0' => '1', 'bar_1' => '1', 'foo_2' => '1', 'bar_3' => '1'], $where->getInput());
 	}
-
-	public function testOneParameter () {
-		$where = new \Gajus\Klaus\Where(['user_first_name' => '`u1`.`first_name`'], ['user_first_name' => 'foo']);
-
-		$this->assertCount(1, $where->getData());
-		$this->assertArrayHasKey('user_first_name', $where->getData());
-		$this->assertSame(['user_first_name' => 'foo'], $where->getData());
-		$this->assertSame('1=1 AND `u1`.`first_name` = :user_first_name', $where->getQuery());
-	}
-
-	public function testTwoParameters () {
-		$where = new \Gajus\Klaus\Where(['user_first_name' => '`u1`.`first_name`', 'user_last_name' => '`u1`.`last_name`'], ['user_first_name' => 'foo', 'user_last_name' => 'bar']);
-
-		$this->assertCount(2, $where->getData());
-		$this->assertArrayHasKey('user_first_name', $where->getData());
-		$this->assertArrayHasKey('user_last_name', $where->getData());
-		$this->assertSame(['user_first_name' => 'foo', 'user_last_name' => 'bar'], $where->getData());
-		$this->assertSame('1=1 AND `u1`.`first_name` = :user_first_name AND `u1`.`last_name` = :user_last_name', $where->getQuery());
-	}
-
-	public function testTwoParametersOneEmpty () {
-		$where = new \Gajus\Klaus\Where(['user_first_name' => '`u1`.`first_name`', 'user_last_name' => '`u1`.`last_name`'], ['user_first_name' => 'foo', 'user_last_name' => '']);
-
-		$this->assertCount(2, $where->getData());
-		$this->assertArrayHasKey('user_first_name', $where->getData());
-		$this->assertArrayNotHasKey('user_last_name', $where->getData());
-		$this->assertSame(['user_first_name' => 'foo'], $where->getData());
-		$this->assertSame('1=1 AND `u1`.`first_name` = :user_first_name', $where->getQuery());
-	}
-
-	public function testWildcard () {
-		$where = new \Gajus\Klaus\Where(['user_first_name' => '`u1`.`first_name`'], ['user_first_name' => 'foo*']);
-
-		$this->assertCount(2, $where->getData());
-		$this->assertArrayHasKey('user_first_name', $where->getData());
-		$this->assertSame(['user_first_name' => 'foo%'], $where->getData());
-		$this->assertSame('1=1 AND `u1`.`first_name` LIKE :user_first_name', $where->getQuery());
-	}
-
-	public function testEscapedWildcard () {
-		$where = new \Gajus\Klaus\Where(['user_first_name' => '`u1`.`first_name`'], ['user_first_name' => 'foo\*']);
-
-		$this->assertCount(2, $where->getData());
-		$this->assertArrayHasKey('user_first_name', $where->getData());
-		$this->assertSame(['user_first_name' => 'foo*'], $where->getData());
-		$this->assertSame('1=1 AND `u1`.`first_name` = :user_first_name', $where->getQuery());
-	}*/
 }

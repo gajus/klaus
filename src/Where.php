@@ -67,7 +67,7 @@ class Where {
 
 		foreach ($group['condition'] as $condition) {
 			if (isset($condition['group'])) {
-				$clause[] = '(' . $this->buildGroup($condition['group']) . ')';
+				$clause[] = '(' . $this->buildGroup($condition) . ')';
 			} else {
 				if (!isset($condition['name'], $condition['value'], $condition['operation'])) {
 					throw new Exception\LogicException('Invalid input condition.');
