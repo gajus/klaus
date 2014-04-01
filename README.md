@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/gajus/klaus.png?branch=master)](https://travis-ci.org/gajus/klaus)
 [![Coverage Status](https://coveralls.io/repos/gajus/klaus/badge.png)](https://coveralls.io/r/gajus/klaus)
 
-Klaus is a SQL query (WHERE clause) builder based on array input. The query array is generated using "advance search" form.
+Klaus is for constructing SQL query WHERE clause based on user input. User input is an array generated using Klaus "advance search" form.
 
 ## Input
 

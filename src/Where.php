@@ -16,13 +16,13 @@ class Where {
 		 */
 		$query,
 		/**
-		 *
+		 * @var string
 		 */
-		$clause,
+		$clause = '1=1',
 		/**
-		 *
+		 * @var array
 		 */
-		$input;
+		$input = [];
 
 	
 	/*public function __construct (array $map, array $input) {
@@ -34,7 +34,9 @@ class Where {
 		$this->map = $map;
 		$this->query = $query;
 
-		$this->clause = $this->buildGroup($this->query);
+		if ($this->query) {
+			$this->clause = $this->buildGroup($this->query);
+		}
 	}
 
 	/**

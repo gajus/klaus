@@ -3,6 +3,12 @@
  * 
  */
 class WhereTest extends PHPUnit_Framework_TestCase {
+	public function testNoCondition () {
+		$where = new \Gajus\Klaus\Where(['foo' => '`foo`'], []);
+
+		$this->assertSame('1=1', $where->getClause());
+		$this->assertSame([], $where->getInput());
+	}
 
 	public function testSingleParameter () {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`'], [
