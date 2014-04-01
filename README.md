@@ -44,3 +44,7 @@ along with the input parameters:
 ```
 
 The two are used to build and execute a SQL prepared statement.
+
+## Alternatives
+
+[elasticsearch](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html) (ES) provides an API with a query DSL. The only downside of using ES is that it requires data dupliction.
