@@ -32,6 +32,18 @@ class WhereTemplateTest extends PHPUnit_Framework_TestCase {
 		], $query);
 	}
 
+	public function testMultipleParametersCondition () {
+		$query = \Gajus\Klaus\Where::queryTemplate(['foo' => 'bar', 'baz' => 'qux']);
+
+		$this->assertSame([
+			'group' => 'AND',
+			'condition' => [
+				['name' => 'foo', 'value' => 'bar', 'operator' => '='],
+				['name' => 'baz', 'value' => 'qux', 'operator' => '=']
+			]
+		], $query);
+	}
+
 	public function testBeginsWithWildcard () {
 		$query = \Gajus\Klaus\Where::queryTemplate(['foo' => '%bar']);
 
