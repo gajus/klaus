@@ -75,7 +75,7 @@ class Where {
 			if (isset($condition['group'])) {
 				$clause[] = '(' . $this->buildGroup($condition) . ')';
 			} else {
-				if (!isset($condition['name'], $condition['value'], $condition['operation'])) {
+				if (!isset($condition['name'], $condition['value'], $condition['operator'])) {
 					throw new Exception\LogicException('Invalid input condition.');
 				}
 
@@ -83,7 +83,11 @@ class Where {
 					throw new Exception\LogicException('Not mapped input condition.');
 				}
 
-				$clause[] = $this->map[$condition['name']] . ' ' . $condition['operation'] . ' :' . $condition['name'] . '_' . count($this->input);
+				if (!in_array($condition['operator'], ['=', 'LIKE', '>', '<', '>=', '<=', true])) {
+					throw new Exception\UnexpectedValueException('Invalid comparison operator.');
+				}
+
+				$clause[] = $this->map[$condition['name']] . ' ' . $condition['operator'] . ' :' . $condition['name'] . '_' . count($this->input);
 
 				$this->input[$condition['name'] . '_' . count($this->input)] = $condition['value'];
 			}
@@ -110,7 +114,15 @@ class Where {
 		];
 
 		foreach ($input as $name => $value) {
-			$query['condition'][] = ['name' => $name, 'value' => $value, 'operation' => '='];
+			$condition = ['name' => $name, 'value' => $value, 'operator' => '='];
+
+			if (strpos(mb_substr($value, 1, -1), '%') !== false) {
+
+			} else if (mb_strpos($value, '%') === 0 ||  mb_substr($value, -1) === '%') {
+				$condition['operator'] = 'LIKE';
+			}
+
+			$query['condition'][] = $condition;
 		}
 
 		return $query;

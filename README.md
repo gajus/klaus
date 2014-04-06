@@ -13,13 +13,13 @@ Klaus requires input in the following format:
 [
     'group' => 'AND',
     'condition' => [
-        ['name' => 'foo', 'value' => '1', 'operation' => '='],
-        ['name' => 'bar', 'value' => '2', 'operation' => '='],
+        ['name' => 'foo', 'value' => '1', 'operator' => '='],
+        ['name' => 'bar', 'value' => '2', 'operator' => '='],
         [
             'group' => 'OR',
             'condition' => [
-                ['name' => 'foo', 'value' => '1', 'operation' => '='],
-                ['name' => 'bar', 'value' => '2', 'operation' => '=']
+                ['name' => 'foo', 'value' => '1', 'operator' => '='],
+                ['name' => 'bar', 'value' => '2', 'operator' => '=']
             ]
         ]
     ]
@@ -44,6 +44,16 @@ along with the input parameters:
 ```
 
 The two are used to build and execute a SQL prepared statement.
+
+## Input Template
+
+For basic search you can use `Gajus\Klaus\Where::queryTemplate`.
+
+* Basic query template takes name => value pairs and converts them to `WHERE` clause grouped using `AND`.
+* Empty values are discarded.
+* Values begning with `%` will use `LIKE` comparison.
+* Values endding with `%` will use `LIKE` comparison.
+* Values that do not contain `%` or where `%` is not at the begining or end of the query will use `=` comparison.
 
 ## Alternatives
 

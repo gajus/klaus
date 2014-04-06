@@ -21,7 +21,7 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`'], [
 			'group' => 'AND',
 			'condition' => [
-				['name' => 'foo', 'value' => 'bar', 'operation' => '=']
+				['name' => 'foo', 'value' => 'bar', 'operator' => '=']
 			]
 		]);
 
@@ -33,8 +33,8 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`', 'bar' => '`bar`'], [
 			'group' => 'AND',
 			'condition' => [
-				['name' => 'foo', 'value' => '1', 'operation' => '='],
-				['name' => 'bar', 'value' => '1', 'operation' => '=']
+				['name' => 'foo', 'value' => '1', 'operator' => '='],
+				['name' => 'bar', 'value' => '1', 'operator' => '=']
 			]
 		]);
 
@@ -46,8 +46,8 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`', 'bar' => '`bar`'], [
 			'group' => 'OR',
 			'condition' => [
-				['name' => 'foo', 'value' => '1', 'operation' => '='],
-				['name' => 'bar', 'value' => '1', 'operation' => '=']
+				['name' => 'foo', 'value' => '1', 'operator' => '='],
+				['name' => 'bar', 'value' => '1', 'operator' => '=']
 			]
 		]);
 
@@ -63,8 +63,8 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`', 'bar' => '`bar`'], [
 			'group' => 'XXX',
 			'condition' => [
-				['name' => 'foo', 'value' => '1', 'operation' => '='],
-				['name' => 'bar', 'value' => '1', 'operation' => '=']
+				['name' => 'foo', 'value' => '1', 'operator' => '='],
+				['name' => 'bar', 'value' => '1', 'operator' => '=']
 			]
 		]);
 	}
@@ -100,7 +100,7 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where([], [
 			'group' => 'AND',
 			'condition' => [
-				['name' => 'foo', 'value' => '1', 'operation' => '=']
+				['name' => 'foo', 'value' => '1', 'operator' => '=']
 			]
 		]);
 	}
@@ -109,13 +109,13 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`', 'bar' => '`bar`'], [
 			'group' => 'AND',
 			'condition' => [
-				['name' => 'foo', 'value' => '1', 'operation' => '='],
-				['name' => 'bar', 'value' => '1', 'operation' => '='],
+				['name' => 'foo', 'value' => '1', 'operator' => '='],
+				['name' => 'bar', 'value' => '1', 'operator' => '='],
 				[
 					'group' => 'OR',
 					'condition' => [
-						['name' => 'foo', 'value' => '1', 'operation' => '='],
-						['name' => 'bar', 'value' => '1', 'operation' => '=']
+						['name' => 'foo', 'value' => '1', 'operator' => '='],
+						['name' => 'bar', 'value' => '1', 'operator' => '=']
 					]
 				]
 			]
