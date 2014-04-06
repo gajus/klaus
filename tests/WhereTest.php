@@ -10,6 +10,13 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame([], $where->getInput());
 	}
 
+	public function testEmptyCondition () {
+		$where = new \Gajus\Klaus\Where(['foo' => '`foo`'], ['group' => 'AND', 'condition' => []]);
+
+		$this->assertSame('1=1', $where->getClause());
+		$this->assertSame([], $where->getInput());
+	}
+
 	public function testSingleParameter () {
 		$where = new \Gajus\Klaus\Where(['foo' => '`foo`'], [
 			'group' => 'AND',

@@ -34,7 +34,7 @@ class Where {
 		$this->map = $map;
 		$this->query = $query;
 
-		if ($this->query) {
+		if ($query) {
 			$this->clause = $this->buildGroup($this->query);
 		}
 	}
@@ -67,6 +67,10 @@ class Where {
 			throw new Exception\LogicException('Unexpected group condition.');
 		}
 
+		if (empty($group['condition'])) {
+			return '1=1';
+		}
+
 		foreach ($group['condition'] as $condition) {
 			if (isset($condition['group'])) {
 				$clause[] = '(' . $this->buildGroup($condition) . ')';
@@ -86,5 +90,29 @@ class Where {
 		}
 
 		return implode(' ' . $group['group'] . ' ', $clause);
+	}
+
+	/**
+	 * @param array $input
+	 * @param string $template Template name.
+	 * @return array
+	 */
+	static public function queryTemplate (array $input, $template = 'simple') {
+		if ($template != 'simple') {
+			throw new Exception\UnexpectedValueException('Unrecognised template.');
+		}
+
+		$input = array_filter($input);
+
+		$query = [
+		    'group' => 'AND',
+		    'condition' => []
+		];
+
+		foreach ($input as $name => $value) {
+			$query['condition'][] = ['name' => $name, 'value' => $value, 'operation' => '='];
+		}
+
+		return $query;
 	}
 }
