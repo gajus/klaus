@@ -3,11 +3,11 @@
 [![Build Status](https://travis-ci.org/gajus/klaus.png?branch=master)](https://travis-ci.org/gajus/klaus)
 [![Coverage Status](https://coveralls.io/repos/gajus/klaus/badge.png)](https://coveralls.io/r/gajus/klaus)
 
-Klaus is for constructing SQL query WHERE clause based on user input. User input is an array generated using Klaus "advance search" form.
+Klaus is for constructing SQL query `WHERE` clause based on user input. User input is an array generated using Klaus "advance search" form.
 
 ## Input
 
-Klaus requires input in the following format:
+Klaus is expecting input in the following format:
 
 ```php
 [
@@ -26,7 +26,7 @@ Klaus requires input in the following format:
 ]
 ```
 
-The above will produce the following WHERE clause:
+The above will produce the following `WHERE` clause:
 
 ```sql
 `foo` = :foo_0 AND `bar` = :bar_1 AND (`foo` = :foo_2 OR `bar` = :bar_3)
