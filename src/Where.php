@@ -24,13 +24,11 @@ class Where {
 		 */
 		$input = [];
 
-	
-	/*public function __construct (array $map, array $input) {
-		$this->map = $map;
-		$this->input = $input;
-	}*/
-
-	public function __construct (array $map, array $query) {
+	/**
+	 * @param array $query
+	 * @param array $map
+	 */
+	public function __construct (array $query, array $map) {
 		$this->map = $map;
 		$this->query = $query;
 

@@ -55,6 +55,31 @@ For basic search you can use `Gajus\Klaus\Where::queryTemplate`.
 * Values endding with `%` will use `LIKE` comparison.
 * Values that do not contain `%` or where `%` is not at the begining or end of the query will use `=` comparison.
 
+### Example
+
+```php
+$query = \Gajus\Klaus\Where::queryTemplate(['foo' => 'bar', 'baz' => 'qux%']);
+
+// $query is now eq. to:
+
+$query = [
+    'group' => 'AND',
+    'condition' => [
+        ['name' => 'foo', 'value' => 'bar', 'operator' => '='],
+        ['name' => 'baz', 'value' => 'qux%', 'operator' => 'LIKE']
+    ]
+];
+
+// Which you then pass to the Where constructor.
+
+$where = new \Gajus\Klaus\Where($query, ['foo' => '`foo`', 'baz' => '`baz`']);
+
+$sth = $db->prepare("SELECT `foo`, `baz` FROM `quux` WHERE {$where->getClause()}");
+$sth->execute($where->getInput());
+
+// ..
+```
+
 ## Alternatives
 
 [elasticsearch](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html) (ES) provides an API with a query DSL. The only downside of using ES is that it requires data dupliction.
