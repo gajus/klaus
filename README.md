@@ -5,7 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/gajus/klaus/version.png)](https://packagist.org/packages/gajus/klaus)
 [![License](https://poser.pugx.org/gajus/klaus/license.png)](https://packagist.org/packages/gajus/klaus)
 
-Klaus is for constructing SQL `WHERE` clause based on user input. User input is an array generated using Klaus "advance search" form.
+SQL `WHERE` clause constructor.
 
 ## How to construct SQL `WHERE` clause using Klaus?
 

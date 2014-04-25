@@ -1,7 +1,7 @@
 {
 	"name": "gajus/klaus",
 	"version": "0.1.0",
-	"description": "SQL clause builder.",
+	"description": "SQL WHERE clause constructor.",
 	"keywords": ["query", "where", "clause"],
 	"homepage": "https://github.com/gajus/klaus",
 	"type": "library",
@@ -13,7 +13,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5"
+		"php": ">=5.4"
 	},
 	"require-dev": {
 	    "satooshi/php-coveralls": "dev-master"
