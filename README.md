@@ -7,32 +7,56 @@
 
 Klaus is for constructing SQL query `WHERE` clause based on user input. User input is an array generated using Klaus "advance search" form.
 
-## Input
+## How to construct SQL `WHERE` clause using Klaus?
 
-`WHERE` clause is built from an array input in the following format:
+We have the following query:
+
+```sql
+SELECT
+    `f1`.`name` `foo_name`,
+    `b1`.`name` `bar_name`
+FROM
+    `foo` `f1`
+INNER JOIN
+    `bar` `b1`
+```
+
+We want to use user input to search query using either `foo_name` or `bar_name` column. First, we need to map our input name to the column names as they appear in the SQL query:
+
+```php
+$map = [
+    'foo_name' => '`f1`.`name`',
+    'bar_name' => '`b1`.`name`'
+];
+```
+
+Then, we need to build the query:
+
+```php
+$query = [
+    'group' => 'AND',
+    'condition' => [
+        ['name' => 'foo_name', 'value' => '1', 'operator' => '='],
+        ['name' => 'bar_name', 'value' => '2', 'operator' => '='],
+        [
+            'group' => 'OR',
+            'condition' => [
+                ['name' => 'foo_name', 'value' => '1', 'operator' => '='],
+                ['name' => 'bar_name', 'value' => '2', 'operator' => '=']
+            ]
+        ]
+    ]
+]
+```
+
+The query itself is an array consisting of group name and conditions, where condition can be a group and condition, [..].
 
 ```php
 /**
  * @param array $query
  * @param array $map Map input name to the aliased column in the SQL query, e.g. ['name' => '`p1`.`name`'].
  */
-$where = new \Gajus\Klaus\Where([
-    'group' => 'AND',
-    'condition' => [
-        ['name' => 'foo', 'value' => '1', 'operator' => '='],
-        ['name' => 'bar', 'value' => '2', 'operator' => '='],
-        [
-            'group' => 'OR',
-            'condition' => [
-                ['name' => 'foo', 'value' => '1', 'operator' => '='],
-                ['name' => 'bar', 'value' => '2', 'operator' => '=']
-            ]
-        ]
-    ]
-], [
-    'foo' => '`foo`',
-    'bar' => '`bar`'
-]);
+$where = new \Gajus\Klaus\Where($query, $map);
 ```
 
 ### Generating the SQL `WHERE` clause
@@ -45,11 +69,11 @@ $where->getClause();
 ```
 
 ```sql
-`foo` = :foo_0 AND
-`bar` = :bar_1 AND
+`f1`.`name` = :foo_name_0 AND
+`b1`.`name` = :bar_name_1 AND
     (
-        `foo` = :foo_2 OR
-        `bar` = :bar_3
+        `f1`.`name` = :foo_name_2 OR
+        `b1`.`name` = :bar_name_3
     )
 ```
 
@@ -64,10 +88,10 @@ $where->getInput();
 
 ```php
 [
-    'foo_0' => '1',
-    'bar_1' => '2',
-    'foo_2' => '1',
-    'bar_3' => '2',
+    'foo_name_0' => '1',
+    'bar_name_1' => '2',
+    'foo_name_2' => '1',
+    'bar_name_3' => '2',
 ]
 ```
 
