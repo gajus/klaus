@@ -5,7 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/gajus/klaus/version.png)](https://packagist.org/packages/gajus/klaus)
 [![License](https://poser.pugx.org/gajus/klaus/license.png)](https://packagist.org/packages/gajus/klaus)
 
-SQL `WHERE` clause constructor.
+User input interpreter for constructing SQL `WHERE` clause. 
 
 ## How to construct SQL `WHERE` clause using Klaus?
 

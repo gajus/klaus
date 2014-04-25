@@ -1,8 +1,8 @@
 {
 	"name": "gajus/klaus",
 	"version": "0.1.0",
-	"description": "SQL WHERE clause constructor.",
-	"keywords": ["query", "where", "clause"],
+	"description": "User input interpreter for constructing SQL WHERE clause.",
+	"keywords": ["mysql", "sql", "query", "where", "clause", "builder", "constructor"],
 	"homepage": "https://github.com/gajus/klaus",
 	"type": "library",
 	"license": "BSD-3-Clause",
