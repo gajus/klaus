@@ -7,33 +7,37 @@
 
 User input interpreter for constructing SQL `WHERE` clause. 
 
-## How to construct SQL `WHERE` clause using Klaus?
+## Documentation
 
-We have the following query:
+Klaus can build complex queries of variable depth using `AND` and `OR` operators.
 
-```sql
-SELECT
-    `f1`.`name` `foo_name`,
-    `b1`.`name` `bar_name`
-FROM
-    `foo` `f1`
-INNER JOIN
-    `bar` `b1`
-```
+`WHERE` clause is constructed using:
 
-We want to use user input to search query using either `foo_name` or `bar_name` column. First, we need to map our input name to the column names as they appear in the SQL query:
+* Query – user input.
+* Map – map of user input variable names to the PDO prepared statement named placeholders.
 
-```php
-$map = [
-    'foo_name' => '`f1`.`name`',
-    'bar_name' => '`b1`.`name`'
-];
-```
+### Query
 
-Then, we need to build the query:
+Raw query consists of the grouping operator definition (`AND` or `OR`) and condition. There are two types of conditions:
+
+#### Comparison Condition
+
+Comparison consists of user input name, value and the comparison operator.
 
 ```php
-$query = [
+[
+    'name' => 'foo_name', // User input name
+    'value' => '1', // User input value
+    'operator' => '=' // Condition operator
+]
+```
+
+#### Group Condition
+
+The condition itself can define new group.
+
+```php
+[
     'group' => 'AND',
     'condition' => [
         ['name' => 'foo_name', 'value' => '1', 'operator' => '='],
@@ -49,87 +53,27 @@ $query = [
 ]
 ```
 
-The query itself is an array consisting of group name and conditions, where condition can be a group and condition, [..].
+A complete query must include at least one group and at least one comparison operator.
 
-```php
-/**
- * @param array $query
- * @param array $map Map input name to the aliased column in the SQL query, e.g. ['name' => '`p1`.`name`'].
- */
-$where = new \Gajus\Klaus\Where($query, $map);
-```
+### Map
 
-### Generating the SQL `WHERE` clause
-
-```php
-/**
- * @return string SQL WHERE clause representng the query.
- */
-$where->getClause();
-```
+Mapping is used to map parameter name in the query to the column name in the SQL statement.
 
 ```sql
-`f1`.`name` = :foo_name_0 AND
-`b1`.`name` = :bar_name_1 AND
-    (
-        `f1`.`name` = :foo_name_2 OR
-        `b1`.`name` = :bar_name_3
-    )
+SELECT
+    `f1`.`name`,
+    `b1`.`name`
+FROM
+    `foo` `f1`
+INNER JOIN
+    `bar` `b1`
 ```
 
-### Getting the data associated with the query
-
-```php
-/**
- * @return array Input mapped to the prepared statement bindings present in the WHERE clause.
- */
-$where->getInput();
-```
+In the above example, if you intend to allow ``f1`.`name`` and ``b1`.`name`` to be used in the query, you need to define relation between the parameter name that you will use in the query and the column name with the alias.
 
 ```php
 [
-    'foo_name_0' => '1',
-    'bar_name_1' => '2',
-    'foo_name_2' => '1',
-    'bar_name_3' => '2',
-]
-```
-
-## Input Template
-
-For basic search you can use `Gajus\Klaus\Where::queryTemplate`.
-
-* Basic query template takes name => value pairs and converts them to `WHERE` clause grouped using `AND`.
-* Empty values are discarded.
-* Values begning with `%` will use `LIKE` comparison.
-* Values endding with `%` will use `LIKE` comparison.
-* Values that do not contain `%` or where `%` is not at the begining or end of the query will use `=` comparison.
-
-### Example
-
-```php
-$query = \Gajus\Klaus\Where::queryTemplate(['foo' => 'bar', 'baz' => 'qux%']);
-
-// $query is now eq. to:
-
-$query = [
-    'group' => 'AND',
-    'condition' => [
-        ['name' => 'foo', 'value' => 'bar', 'operator' => '='],
-        ['name' => 'baz', 'value' => 'qux%', 'operator' => 'LIKE']
-    ]
+    'foo_name' => '`f1`.`name`',
+    'bar_name' => '`b1`.`name`'
 ];
-
-// Which you then pass to the Where constructor.
-
-$where = new \Gajus\Klaus\Where($query, ['foo' => '`foo`', 'baz' => '`baz`']);
-
-$sth = $db->prepare("SELECT `foo`, `baz` FROM `quux` WHERE {$where->getClause()}");
-$sth->execute($where->getInput());
-
-// ..
 ```
-
-## Alternatives
-
-[elasticsearch](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html) (ES) provides an API with a query DSL. The only downside of using ES is that it requires data dupliction.
