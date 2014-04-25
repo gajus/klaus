@@ -1,5 +1,6 @@
 {
 	"name": "gajus/klaus",
+	"version": "0.1.0",
 	"description": "SQL clause builder.",
 	"keywords": ["query", "where", "clause"],
 	"homepage": "https://github.com/gajus/klaus",
