@@ -5,24 +5,17 @@
 [![Latest Stable Version](https://poser.pugx.org/gajus/klaus/version.png)](https://packagist.org/packages/gajus/klaus)
 [![License](https://poser.pugx.org/gajus/klaus/license.png)](https://packagist.org/packages/gajus/klaus)
 
-User input interpreter for constructing SQL `WHERE` clause. 
+User input interpreter for constructing SQL `WHERE` clause. Klaus can build complex `WHERE` clauses of variable depth and with different grouping conditions.
 
 ## Documentation
 
-Klaus can build complex queries of variable depth using `AND` and `OR` operators.
-
-`WHERE` clause is constructed using:
-
-* Query – user input.
-* Map – map of user input variable names to the PDO prepared statement named placeholders.
-
-### Query
+### Preparing Query
 
 Raw query consists of the grouping operator definition (`AND` or `OR`) and condition. There are two types of conditions:
 
 #### Comparison Condition
 
-Comparison consists of user input name, value and the comparison operator.
+Comparison consists of user input name, value and the comparison operator, e.g.
 
 ```php
 [
@@ -34,7 +27,7 @@ Comparison consists of user input name, value and the comparison operator.
 
 #### Group Condition
 
-The condition itself can define new group.
+The condition itself can define new group, e.g.
 
 ```php
 $query = [
@@ -55,7 +48,7 @@ $query = [
 
 A complete query must include at least one group and at least one comparison operator.
 
-### Map
+### Mapping Using Input
 
 Mapping is used to restrict columns that can be included in the query, as well as to provide support for columns that depend on alias or even more complicated constructs.
 
@@ -71,7 +64,7 @@ ON
     [..]
 ```
 
-In the above example, you need to define relation between the parameter name that you will use in the query and the column name in the SQL query, e.g.
+In the above example, you need to define relation between the parameter name that you are using in the query and the column name in the SQL query, e.g.
 
 ```php
 $map = [
@@ -80,7 +73,7 @@ $map = [
 ];
 ```
 
-### `WHERE` clause in practise
+### Buildng the `WHERE` Clause
 
 The preceeding examples explain how to prepare data for the `Where` constructor.
 
@@ -170,7 +163,7 @@ In the above example, `$input` is equal to:
 ]
 ```
 
-## Input Template
+### Input Template
 
 For basic search you can use `Gajus\Klaus\Where::queryTemplate`.
 
@@ -180,7 +173,7 @@ For basic search you can use `Gajus\Klaus\Where::queryTemplate`.
 * Values endding with `%` will use `LIKE` comparison.
 * Values that do not contain `%` or where `%` is not at the begining or end of the query will use `=` comparison.
 
-### Example
+#### Example
 
 ```php
 $query = \Gajus\Klaus\Where::queryTemplate(['foo' => 'bar', 'baz' => 'qux%']);
