@@ -9,10 +9,10 @@ Klaus is for constructing SQL query `WHERE` clause based on user input. User inp
 
 ## Input
 
-Klaus is expecting input in the following format:
+WHERE clause is built from an array input in the following format:
 
 ```php
-[
+$where = new \Gajus\Klaus\Where([
     'group' => 'AND',
     'condition' => [
         ['name' => 'foo', 'value' => '1', 'operator' => '='],
@@ -25,16 +25,21 @@ Klaus is expecting input in the following format:
             ]
         ]
     ]
-]
+]);
 ```
 
-The above will produce the following `WHERE` clause:
+In case of the above query, `$where->getClause()` will produce the following `WHERE` clause:
 
 ```sql
-`foo` = :foo_0 AND `bar` = :bar_1 AND (`foo` = :foo_2 OR `bar` = :bar_3)
+`foo` = :foo_0 AND
+`bar` = :bar_1 AND
+    (
+        `foo` = :foo_2 OR
+        `bar` = :bar_3
+    )
 ```
 
-along with the input parameters:
+and `$where->getInput()` will produce the following input array:
 
 ```php
 [
