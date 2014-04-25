@@ -26,7 +26,7 @@ class Where {
 
 	/**
 	 * @param array $query
-	 * @param array $map
+	 * @param array $map Map input name to the aliased column in the SQL query, e.g. ['name' => '`p1`.`name`'].
 	 */
 	public function __construct (array $query, array $map) {
 		$this->map = $map;
@@ -38,14 +38,14 @@ class Where {
 	}
 
 	/**
-	 * @return string
+	 * @return string SQL WHERE clause representng the query.
 	 */
 	public function getClause () {
 		return $this->clause;
 	}
 
 	/**
-	 * @return array
+	 * @return array Input mapped to the prepared statement bindings present in the WHERE clause.
 	 */
 	public function getInput () {
 		return $this->input;

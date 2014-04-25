@@ -9,9 +9,13 @@ Klaus is for constructing SQL query `WHERE` clause based on user input. User inp
 
 ## Input
 
-WHERE clause is built from an array input in the following format:
+`WHERE` clause is built from an array input in the following format:
 
 ```php
+/**
+ * @param array $query
+ * @param array $map Map input name to the aliased column in the SQL query, e.g. ['name' => '`p1`.`name`'].
+ */
 $where = new \Gajus\Klaus\Where([
     'group' => 'AND',
     'condition' => [
@@ -25,10 +29,20 @@ $where = new \Gajus\Klaus\Where([
             ]
         ]
     ]
+], [
+    'foo' => '`foo`',
+    'bar' => '`bar`'
 ]);
 ```
 
-In case of the above query, `$where->getClause()` will produce the following `WHERE` clause:
+### Generating the SQL `WHERE` clause
+
+```php
+/**
+ * @return string SQL WHERE clause representng the query.
+ */
+$where->getClause();
+```
 
 ```sql
 `foo` = :foo_0 AND
@@ -39,7 +53,14 @@ In case of the above query, `$where->getClause()` will produce the following `WH
     )
 ```
 
-and `$where->getInput()` will produce the following input array:
+### Getting the data associated with the query
+
+```php
+/**
+ * @return array Input mapped to the prepared statement bindings present in the WHERE clause.
+ */
+$where->getInput();
+```
 
 ```php
 [
@@ -49,8 +70,6 @@ and `$where->getInput()` will produce the following input array:
     'bar_3' => '2',
 ]
 ```
-
-The two are used to build and execute a SQL prepared statement.
 
 ## Input Template
 
