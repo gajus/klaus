@@ -1,7 +1,9 @@
 # Klaus
 
 [![Build Status](https://travis-ci.org/gajus/klaus.png?branch=master)](https://travis-ci.org/gajus/klaus)
-[![Coverage Status](https://coveralls.io/repos/gajus/klaus/badge.png)](https://coveralls.io/r/gajus/klaus)
+[![Coverage Status](https://coveralls.io/repos/gajus/klaus/badge.png?branch=master)](https://coveralls.io/r/gajus/klaus?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/gajus/klaus/version.png)](https://packagist.org/packages/gajus/klaus)
+[![License](https://poser.pugx.org/gajus/klaus/license.png)](https://packagist.org/packages/gajus/klaus)
 
 Klaus is for constructing SQL query `WHERE` clause based on user input. User input is an array generated using Klaus "advance search" form.
 
